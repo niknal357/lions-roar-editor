@@ -473,13 +473,17 @@ while True:
         for i in range(len(tags_types)):
             if tags_enabled[i]:
                 tags.append(tags_types[i])
+        if repofile == None:
+            thumbnail = None
+        else:
+            thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
         pub["articles"].append({
             "title": title,
             "author": author,
             "date": str(day)+" "+months[month-1],
             "url": url,
             "type": art_type,
-            "thumbnail": "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile,
+            "thumbnail": thumbnail,
             "tags": tags
         })
     elif index == 5:
@@ -649,7 +653,11 @@ while True:
             with open(filename, 'rb') as f:
                 repo.create_file(repofile, "upload thumbnail", f.read())
         if repofile != 0:
-            extra["thumbnail"] = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
+            if repofile == None:
+                thumbnail = None
+            else:
+                thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
+            extra["thumbnail"] = thumbnail
     elif index == 6:
         pub_groups = [[]]
         for pub in data:
