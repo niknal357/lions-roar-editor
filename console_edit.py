@@ -80,7 +80,7 @@ except ImportError:
     exit(1)
 
 if 'VERY_IMPORTANT_FILE.txt' not in os.listdir():
-    print('acquite the VERY_IMPORTANT_FILE.txt file from an admin, or someone that has it in general')
+    print('acquire the VERY_IMPORTANT_FILE.txt file from an admin, or someone that has it in general')
     print('and place it in the same directory as this script')
     input()
     exit()
