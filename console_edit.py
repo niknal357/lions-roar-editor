@@ -1,15 +1,12 @@
-import urllib.request
 import sys
 import subprocess
 import json
 import time
-import random
 from datetime import date
 import datetime
 import math
 from os import system, name
-from time import sleep
-import base64
+import os
 
 tags_types = [
     "Upper School",
@@ -82,12 +79,11 @@ except ImportError:
     install("tk")
     exit(1)
 
-try:
-    import cv2
-except ImportError:
-    install("opencv-python")
-    exit(1)
-
+if 'VERY_IMPORTANT_FILE.txt' not in os.listdir():
+    print('acquite the VERY_IMPORTANT_FILE.txt file from an admin, or someone that has it in general')
+    print('and place it in the same directory as this script')
+    input()
+    exit()
 with open('VERY_IMPORTANT_FILE.txt', 'r') as f:
     g = Github(f.read())
 
