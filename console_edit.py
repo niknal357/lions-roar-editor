@@ -148,6 +148,26 @@ while True:
         ind = art_types.index(art_type)
         art_type, ind = pick.pick(
             art_types, "What type of article is this?", indicator='>', default_index=ind)
+        option, index = pick.pick(
+            options, 'Do you want to add a custom thumbnail?', indicator='>', default_index=1)
+        if option == "Yes":
+            filename = askopenfilename(title="Select thumbnail file")
+            if filename == "":
+                repofile = None
+            else:
+                repofile = "thumbnails/" + \
+                    str(time.time())+"."+filename.split(".")[-1]
+        else:
+            repofile = None
+        
+        if repofile != None:
+            with open(filename, 'rb') as f:
+                repo.create_file(repofile, "upload thumbnail", f.read())
+        
+        if repofile == None:
+            thumbnail = None
+        else:
+            thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
         data.append({
             "year": year,
             "month": month,
@@ -155,7 +175,7 @@ while True:
             "day": day,
             "main_article_title": title,
             "main_article_url": url,
-            "main_article_thumbnail": None,
+            "main_article_thumbnail": thumbnail,
             "main_article_type": art_type,
             "release_timestamp": 0,
             "enabled": True,
