@@ -214,6 +214,7 @@ while True:
                     pub["main_article_title"], months[pub["month"]-1], pub["day"]))
             option, index = pick.pick(
                 options, "", indicator='>', default_index=def_index)
+            pub = None
             if option == "Cancel":
                 break
             elif option == "Previous page":
@@ -231,6 +232,8 @@ while True:
                 pub = pub_groups[pub_index][index]
                 break
         clear()
+        if pub == None:
+            continue
         print("Editing: {} ({} {})".format(
             pub["main_article_title"], months[pub["month"]-1], pub["day"]))
         print("LEAVE BLANK TO KEEP SUGGESTION")
