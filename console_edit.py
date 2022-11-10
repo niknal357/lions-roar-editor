@@ -19,7 +19,9 @@ tags_types = [
     "German",
     "French",
     "Spanish",
-    "Physics"
+    "Physics",
+    "Music",
+    "Arts"
 ]
 
 
@@ -151,23 +153,23 @@ while True:
         option, index = pick.pick(
             options, 'Do you want to add a custom thumbnail?', indicator='>', default_index=1)
         if option == "Yes":
-            o, _ = pick.pick(["Upload from computer", "Use custom URL"], "How do you want to upload the thumbnail?", indicator='>', default_index=0)
-            if o == "Upload from computer":
-                filename = askopenfilename(title="Select thumbnail file")
-                if filename == "":
-                    repofile = None
-                    thumbnail = None
-                else:
-                    repofile = "thumbnails/" + \
-                        str(time.time())+"."+filename.split(".")[-1]
-                    with open(filename, 'rb') as f:
-                        repo.create_file(repofile, "upload thumbnail", f.read())
-                    thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
+            filename = askopenfilename(title="Select thumbnail file")
+            if filename == "":
+                repofile = None
             else:
-                thumbnail = input("URL: ")
+                repofile = "thumbnails/" + \
+                    str(time.time())+"."+filename.split(".")[-1]
         else:
             repofile = None
+        
+        if repofile != None:
+            with open(filename, 'rb') as f:
+                repo.create_file(repofile, "upload thumbnail", f.read())
+        
+        if repofile == None:
             thumbnail = None
+        else:
+            thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
         data.append({
             "year": year,
             "month": month,
@@ -251,26 +253,6 @@ while True:
         title_p = input("Title ({}): ".format(pub["main_article_title"]))
         if title_p != "":
             pub["main_article_title"] = title_p
-        thumbnail = pub["main_article_thumbnail"]
-        option, ind = pick.pick(["Yes", "No"], "Do you want to change the thumnail?", indicator='>', default_index=1)
-        if option == "Yes":
-            o, _ = pick.pick(["Upload from computer", "Use custom URL"], "How do you want to upload the thumbnail?", indicator='>', default_index=0)
-            if o == "Upload from computer":
-                filename = askopenfilename(title="Select thumbnail file")
-                if filename == "":
-                    repofile = None
-                    thumbnail = None
-                else:
-                    repofile = "thumbnails/" + \
-                        str(time.time())+"."+filename.split(".")[-1]
-                    with open(filename, 'rb') as f:
-                        repo.create_file(repofile, "upload thumbnail", f.read())
-                    thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
-            else:
-                thumbnail = input("URL: ")
-        else:
-            repofile = None
-        pub["main_article_thumbnail"] = thumbnail
         url_p = input("URL ({}): ".format(pub["main_article_url"]))
         if url_p != "":
             pub["main_article_url"] = url_p
@@ -484,24 +466,18 @@ while True:
         option, index = pick.pick(
             options, 'Do you want to add a custom thumbnail?', indicator='>', default_index=1)
         if option == "Yes":
-            o, _ = pick.pick(["Upload from computer", "Use custom URL"], "How do you want to upload the thumbnail?", indicator='>', default_index=0)
-            if o == "Upload from computer":
-                filename = askopenfilename(title="Select thumbnail file")
-                if filename == "":
-                    repofile = None
-                    thumbnail = None
-                else:
-                    repofile = "thumbnails/" + \
-                        str(time.time())+"."+filename.split(".")[-1]
-                    with open(filename, 'rb') as f:
-                        repo.create_file(repofile, "upload thumbnail", f.read())
-                    thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
+            filename = askopenfilename(title="Select thumbnail file")
+            if filename == "":
+                repofile = None
             else:
-                thumbnail = input("URL: ")
+                repofile = "thumbnails/" + \
+                    str(time.time())+"."+filename.split(".")[-1]
         else:
             repofile = None
-            thumbnail = None
         author = input("Author: ")
+        if repofile != None:
+            with open(filename, 'rb') as f:
+                repo.create_file(repofile, "upload thumbnail", f.read())
         tags_enabled = [False]*len(tags_types)
         index = 0
         while True:
@@ -522,6 +498,10 @@ while True:
         for i in range(len(tags_types)):
             if tags_enabled[i]:
                 tags.append(tags_types[i])
+        if repofile == None:
+            thumbnail = None
+        else:
+            thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
         pub["articles"].append({
             "title": title,
             "author": author,
@@ -654,24 +634,15 @@ while True:
             art_types, "What type of article is this?", indicator='>', default_index=ind)
         option, index = pick.pick(
             ["Yes", "No"], "Do you want to change the thumbnail?", indicator='>', default_index=1)
-        thumbnail = extra["thumbnail"]
         if option == "Yes":
-            o, _ = pick.pick(["Upload from computer", "Use custom URL"], "How do you want to upload the thumbnail?", indicator='>', default_index=0)
-            if o == "Upload from computer":
-                filename = askopenfilename(title="Select thumbnail file")
-                if filename == "":
-                    repofile = None
-                    thumbnail = None
-                else:
-                    repofile = "thumbnails/" + \
-                        str(time.time())+"."+filename.split(".")[-1]
-                    with open(filename, 'rb') as f:
-                        repo.create_file(repofile, "upload thumbnail", f.read())
-                    thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
+            filename = askopenfilename(title="Select thumbnail file")
+            if filename == "":
+                repofile = None
             else:
-                thumbnail = input("URL: ")
+                repofile = "thumbnails/" + \
+                    str(time.time())+"."+filename.split(".")[-1]
         else:
-            repofile = None
+            repofile = 0
         author = input("Author ({}): ".format(extra["author"]))
         if author == "":
             author = extra["author"]
@@ -703,7 +674,15 @@ while True:
         extra["url"] = url
         extra["author"] = author
         extra["tags"] = tags
-        extra["thumbnail"] = thumbnail
+        if repofile != None and repofile != 0:
+            with open(filename, 'rb') as f:
+                repo.create_file(repofile, "upload thumbnail", f.read())
+        if repofile != 0:
+            if repofile == None:
+                thumbnail = None
+            else:
+                thumbnail = "https://raw.githubusercontent.com/2canupea/Lions-Roar-Site-Data/main/"+repofile
+            extra["thumbnail"] = thumbnail
     elif index == 6:
         pub_groups = [[]]
         for pub in data:
@@ -944,7 +923,7 @@ while True:
                 options.append("Delete: {}".format(extra["title"]))
             option, index = pick.pick(
                 options, "", indicator='>', default_index=def_index)
-            extra = None
+            extra = None    
             if option == "Cancel":
                 break
             elif option == "Previous page":
